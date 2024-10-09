@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/app/components/theme-provider";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import Header from "@/app/_components/header";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
           attribute="class"
           disableTransitionOnChange
         >
+          <Header />
           {children}
         </ThemeProvider>
       </body>
