@@ -8,7 +8,7 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-8">
             <Link href="/" className="text-2xl font-bold text-gray-800">
-              Helping Hand Initiative
+              Healing Hand Initiative
             </Link>
             <div className="hidden md:flex items-center space-x-4">
               <Link href="/blog" className="text-gray-800 hover:text-gray-900">

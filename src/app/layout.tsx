@@ -9,9 +9,9 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Helping Hand Initiative",
+  title: "Healing Hand Initiative",
   description:
-    "Helping Hand Initiative is a non-profit organization that provides support to the less privileged in the society.",
+    "Healing Hand Initiative is a non-profit organization that provides support to the less privileged in the society.",
 };
 
 export default function RootLayout({
