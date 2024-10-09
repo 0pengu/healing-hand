@@ -10,7 +10,7 @@ export default function Home() {
         muted
         className="w-full h-full object-cover"
       />
-      <div className="absolute left-[15%] bg-yellow-50 px-4 py-2 rounded shadow-lg w-1/4 min-h-fit flex flex-col items-center justify-center text-center">
+      <div className="absolute left-[15%] bg-yellow-50 px-4 py-2 rounded shadow-lg sm:w-1/4 w-1/2 min-h-fit flex flex-col items-center justify-center text-center">
         <h1 className="text-2xl font-bold text-gray-800">Hi! 👋</h1>
         <div className="font-sans">
           <p className="text-gray-800">
@@ -23,7 +23,7 @@ export default function Home() {
             <li>Laboris nisi ut aliquip ex ea commodo consequat</li>
           </ul>
         </div>
-        <Button className="w-full mt-4">Some fun facts about us!</Button>
+        <Button className="w-full mt-4">Learn More</Button>
       </div>
     </div>
   );
