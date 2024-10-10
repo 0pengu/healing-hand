@@ -12,9 +12,7 @@ export default function DesktopLinks({
       className="text-gray-800 hover:text-gray-900"
       key={idx}
     >
-      <Button variant="link" className="font-mono">
-        {link.title}
-      </Button>
+      <Button variant="link">{link.title}</Button>
     </Link>
   ));
 }

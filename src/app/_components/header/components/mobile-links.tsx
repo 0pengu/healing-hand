@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function MobileLinks({
   links,
@@ -25,46 +26,43 @@ export default function MobileLinks({
 
   return (
     <div>
-      {/* Hamburger Icon */}
       <HamburgerMenuIcon
-        className="text-black sm:hidden inline cursor-pointer"
+        className="inline cursor-pointer text-black lg:hidden"
         onClick={toggleMenu}
       />
-
-      {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-40 sm:hidden"
+          className="fixed inset-0 z-40 bg-black opacity-50 lg:hidden"
           onClick={closeMenu}
         ></div>
       )}
-
-      {/* Dropdown Menu */}
       <div
-        className={`fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={`fixed left-0 top-0 z-50 h-full w-2/3 transform bg-yellow-50 shadow-lg transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:hidden`}
+        } lg:hidden`}
       >
-        <div className="flex justify-end p-4">
+        <div className="flex items-center justify-between border-b border-gray-300 p-4">
+          <span className="text-lg font-semibold text-black">
+            Healing Hand Initiative
+          </span>
           <Button
             variant="link"
-            className="text-2xl font-bold text-black"
+            className="text-3xl font-extralight text-black"
             onClick={closeMenu}
           >
             X
           </Button>
         </div>
-
-        <div className="p-4 flex flex-col">
+        <div className="flex flex-col p-4 font-sans">
           {links.map((link, index) => (
-            <a
+            <Link
               key={index}
               href={link.href}
-              className="text-black text-xl mb-4 hover:underline"
+              className="mb-4 text-xl text-black"
               onClick={handleLinkClick}
             >
               {link.title}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

@@ -5,4 +5,8 @@
   :root {
     --radius: 0.5rem
   }
+
+  body {
+    @apply bg-yellow-50
+  }
 }
