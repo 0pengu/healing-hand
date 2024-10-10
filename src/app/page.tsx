@@ -8,6 +8,7 @@ export default function Home() {
         autoPlay
         playsInline
         muted
+        loop
         className="w-full h-full object-cover"
       />
       <div className="absolute left-[15%] bg-yellow-50 px-4 py-2 rounded shadow-lg sm:w-1/4 w-1/2 min-h-fit flex flex-col items-center justify-center text-center">
