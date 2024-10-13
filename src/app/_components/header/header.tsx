@@ -1,7 +1,10 @@
+"use client";
+
 import DesktopLinks from "@/app/_components/header/components/desktop-links";
 import MobileLinks from "@/app/_components/header/components/mobile-links";
 import RightHeaderButtons from "@/app/_components/header/components/right-header-buttons";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 /**
  * Do not put this links array inside the function or then React will
@@ -26,6 +29,12 @@ const links = [
 ];
 
 export default function Header() {
+  const path = usePathname();
+
+  if (path.includes("/editor")) {
+    return null;
+  }
+
   return (
     <div className="sticky top-0 z-50 w-full border border-black bg-yellow-50">
       <div className="container mx-auto px-4">

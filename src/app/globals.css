@@ -7,6 +7,6 @@
   }
 
   body {
-    @apply bg-yellow-50
+    @apply bg-yellow-50 text-zinc-900
   }
 }

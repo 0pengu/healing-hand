@@ -1,7 +1,7 @@
+import Footer from "@/app/_components/footer/footer";
 import BlogCard from "@/app/_components/header/components/blog-cards";
 import { Button } from "@/components/ui/button";
 import { DownArrow } from "@/components/ui/down-arrow";
-import Link from "next/link";
 
 const blogs: {
   imageUrl: string;
@@ -125,16 +125,7 @@ export default function Home() {
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
-      <footer className="flex h-12 w-full items-center justify-between border border-black bg-gray-800 px-8 text-gray-50">
-        <div className="flex items-center">
-          <p className="text-sm">© 2024 Healing Hand Initiative</p>
-        </div>
-        <div>
-          <Button variant="secondary" asChild size="sm">
-            <Link href="/login">Login</Link>
-          </Button>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
