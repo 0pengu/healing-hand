@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function ErrorPage({ reset }: { reset: () => void }) {
+  reset = () => {
+    window.location.reload();
+  };
   return (
     <div className="flex h-[91vh] items-center justify-center">
       <div className="text-center">
@@ -13,7 +16,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
         <Button onClick={reset} className="mx-auto mt-6">
           Try Again
         </Button>{" "}
-        or{" "}
+        <div className="inline font-sans">or </div>
         <Button asChild className="mx-auto mt-6" variant="secondary">
           <Link href="/">Go Home</Link>
         </Button>

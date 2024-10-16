@@ -25,9 +25,11 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button className="w-full" variant="secondary">
-            <FaGoogle className="mx-2" />
-            Login with Google
+          <Button asChild className="w-full" variant="secondary">
+            <Link href="/editor/auth/google">
+              <FaGoogle className="mx-2" />
+              Login with Google
+            </Link>
           </Button>
         </CardContent>
         <CardFooter className="flex justify-between text-xs text-gray-600">

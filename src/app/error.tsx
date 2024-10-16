@@ -13,7 +13,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
         <Button onClick={reset} className="mx-auto mt-6">
           Try Again
         </Button>{" "}
-        or{" "}
+        <div className="inline font-sans">or </div>
         <Button asChild className="mx-auto mt-6" variant="secondary">
           <Link href="/">Go Home</Link>
         </Button>
