@@ -16,7 +16,7 @@ export default async function DefaultEditorPage() {
       <p>Welcome, {user.name}!</p>
       <Button
         onClick={() => {
-          logout({ url: "/auth" });
+          logout();
         }}
       >
         Logout

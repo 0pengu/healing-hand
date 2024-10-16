@@ -4,7 +4,7 @@ import { lucia, validateRequest } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function logout({ url }: { url?: string }): Promise<{
+export async function logout(url?: string): Promise<{
   error: string | null;
 }> {
   const { session } = await validateRequest();
@@ -22,5 +22,5 @@ export async function logout({ url }: { url?: string }): Promise<{
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  redirect(url ?? "/login");
+  redirect(url ?? "/editor/auth");
 }

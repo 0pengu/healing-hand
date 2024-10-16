@@ -14,7 +14,7 @@
     "db:pull": "npx prisma db pull",
     "db:gen": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma push && npx prisma generate"
   },
   "dependencies": {
     "@lucia-auth/adapter-prisma": "^4.0.1",
