@@ -1,3 +1,5 @@
+import { logout } from "@/app/editor/auth/logout/actions";
+import { Button } from "@/components/ui/button";
 import { checkAuth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -12,6 +14,13 @@ export default async function DefaultEditorPage() {
     <div>
       <h1>Editor</h1>
       <p>Welcome, {user.name}!</p>
+      <Button
+        onClick={() => {
+          logout({ url: "/auth" });
+        }}
+      >
+        Logout
+      </Button>
     </div>
   );
 }

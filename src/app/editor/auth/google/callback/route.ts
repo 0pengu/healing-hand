@@ -4,7 +4,7 @@ import { createUserWithGoogle, findUserWithGoogleId } from "@/lib/db/preset";
 import { OAuth2RequestError } from "arctic";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const allowedEmails = (process.env.ALLOWED_EMAILS as string).split(",") ?? [];
 
@@ -26,9 +26,12 @@ export async function GET(request: NextRequest) {
     state !== storedState ||
     !storedVerifier
   ) {
-    return new Response(null, {
-      status: 400,
-    });
+    return new NextResponse(
+      process.env.NODE_ENV === "development"
+        ? "Missing some sort of state"
+        : null,
+      { status: 400 },
+    );
   }
 
   try {
@@ -42,17 +45,21 @@ export async function GET(request: NextRequest) {
       },
     );
     if (!response.ok) {
-      return new Response(null, {
-        status: 401,
-      });
+      return new NextResponse(
+        process.env.NODE_ENV === "development"
+          ? "Failed to fetch user info"
+          : null,
+        { status: 500 },
+      );
     }
 
     const data: GoogleUser = await response.json();
 
     if (!allowedEmails.includes(data.email)) {
-      return new Response(null, {
-        status: 401,
-      });
+      return new NextResponse(
+        process.env.NODE_ENV === "development" ? "Email not allowed" : null,
+        { status: 403 },
+      );
     }
 
     const existingUser = await findUserWithGoogleId(data.sub);
@@ -65,7 +72,7 @@ export async function GET(request: NextRequest) {
         sessionCookie.value,
         sessionCookie.attributes,
       );
-      await redirect("/editor/app");
+      redirect("/editor/app");
     }
 
     const user = await createUserWithGoogle(
@@ -82,13 +89,17 @@ export async function GET(request: NextRequest) {
       sessionCookie.value,
       sessionCookie.attributes,
     );
-    await redirect("/editor/app");
+    redirect("/editor/app");
   } catch (error) {
     if (error instanceof OAuth2RequestError) {
       return new Response(null, {
         status: 400,
       });
     }
+    // Have to throw error to get Next.js to actually handle the redirects properly. Otherwise, it just hangs.
+    /**
+     * @todo - Handle this situation better.
+     */
     throw error;
     return new Response(null, {
       status: 500,

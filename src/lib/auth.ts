@@ -47,7 +47,11 @@ export const google = new Google(
   process.env.GOOGLE_REDIRECT_URI as string,
 );
 
-const validateRequest = cache(
+/**
+ * Please do not use this function yourself. Use `checkAuth` instead. Unless you know what you're doing.
+ * @deprecated
+ */
+export const validateRequest = cache(
   async (): Promise<
     { user: User; session: Session } | { user: null; session: null }
   > => {
