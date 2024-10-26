@@ -1,4 +1,4 @@
-import { catchError } from "@/lib/error-handler";
+import { tryCatch } from "@/lib/error-handler";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { PrismaClient } from "@prisma/client";
 import { Google } from "arctic";
@@ -11,8 +11,12 @@ const adapter = new PrismaAdapter(client.session, client.user);
 import { Lucia, Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { cache } from "react";
-import { findUserWithId } from "@/lib/db/preset";
+import { findUserWithId } from "@/lib/db/preset/user";
 
+/**
+ * The main instance of Lucia. Used for authenticating users.
+ * @see https://lucia-auth.com
+ */
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
     expires: false,
@@ -41,6 +45,11 @@ interface DatabaseUserAttributes {
   username: string;
 }
 
+/**
+ * Google OAuth client. Used for authenticating users with Google.
+ * @see https://arctic.js.org/providers/google
+ * @see Github example - https://lucia-auth.com/tutorials/github-oauth/nextjs-app
+ */
 export const google = new Google(
   process.env.GOOGLE_CLIENT_ID as string,
   process.env.GOOGLE_CLIENT_SECRET as string,
@@ -48,7 +57,7 @@ export const google = new Google(
 );
 
 /**
- * Please do not use this function yourself. Use `checkAuth` instead. Unless you know what you're doing.
+ * Please do not use this function yourself. Use `checkAuth` instead, unless you know what you're doing.
  * @deprecated
  */
 export const validateRequest = cache(
@@ -87,8 +96,27 @@ export const validateRequest = cache(
   },
 );
 
+/**
+ * Check if the user is authenticated.
+ * @returns [undefined, DBUser] if the user is authenticated, [Error] otherwise if the user is not authenticated or an error occurred.
+ * @example 
+ * ```tsx
+ *const [error, user] = await checkAuth();
+
+  if (error) {
+    redirect("/auth/login");
+  }
+
+  return (
+    <div>
+      <h1>Editor</h1>
+      <p>Welcome, {user.name}!</p>
+    </div>
+  );
+    ```
+ */
 export const checkAuth = async (): Promise<[undefined, DBUser] | [Error]> => {
-  const [error, metadata] = await catchError(validateRequest());
+  const [error, metadata] = await tryCatch(validateRequest());
 
   if (error || !metadata || !metadata.user) {
     return [new Error("Unauthorized")];

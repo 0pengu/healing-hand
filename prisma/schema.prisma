@@ -7,6 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Blog {
+  id             String   @id @default(uuid())
+  imageUrl       String
+  title          String
+  content        String
+  createdAt      DateTime @default(now())
+  authors        User[]   @relation("BlogAuthors")
+  tags           Tags[]   @relation("BlogTags")
+  previewContent String
+  Nodes          Json
+}
+
+model Tags {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  blogs     Blog[]   @relation("BlogTags")
+}
+
 model User {
   id       String    @id @default(uuid())
   googleId String?   @unique
@@ -14,6 +34,23 @@ model User {
   name     String?
   image    String?
   sessions Session[]
+  blogs    Blog[]    @relation("BlogAuthors")
+  type     UserType  @default(TEAM)
+  Picture  Picture[]
+}
+
+model Picture {
+  id        String   @id @default(uuid())
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+enum UserType {
+  TEAM
+  ADMIN
 }
 
 model Session {

@@ -1,6 +1,9 @@
 import { GoogleUser } from "@/app/editor/auth/google/callback/type";
-import { google, lucia } from "@/lib/auth";
-import { createUserWithGoogle, findUserWithGoogleId } from "@/lib/db/preset";
+import { checkAuth, google, lucia } from "@/lib/auth";
+import {
+  createUserWithGoogleId,
+  findUserWithGoogleId,
+} from "@/lib/db/preset/user";
 import { OAuth2RequestError } from "arctic";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -13,6 +16,12 @@ const allowedEmails = (process.env.ALLOWED_EMAILS as string).split(",") ?? [];
  * @todo - Return helpful JSON in development mode.
  */
 export async function GET(request: NextRequest) {
+  const [error, user] = await checkAuth();
+
+  if (error || user) {
+    return redirect("/editor/dashboard");
+  }
+
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -72,10 +81,10 @@ export async function GET(request: NextRequest) {
         sessionCookie.value,
         sessionCookie.attributes,
       );
-      redirect("/editor/app");
+      redirect("/editor/dashboard");
     }
 
-    const user = await createUserWithGoogle(
+    const user = await createUserWithGoogleId(
       data.sub,
       data.email,
       data.name,
@@ -89,7 +98,7 @@ export async function GET(request: NextRequest) {
       sessionCookie.value,
       sessionCookie.attributes,
     );
-    redirect("/editor/app");
+    redirect("/editor/dashboard");
   } catch (error) {
     if (error instanceof OAuth2RequestError) {
       return new Response(null, {

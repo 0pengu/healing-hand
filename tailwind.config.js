@@ -11,12 +11,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      height: {
+        "screen-no-header": "91.75vh",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        foreground: "rgb(254 252 232)",
+        background: "rgb(24 24 27)",
         "company-blue": {
           50: "#E0F8FF",
           100: "#B3F0FF",

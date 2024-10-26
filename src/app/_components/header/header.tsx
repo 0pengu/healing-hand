@@ -3,6 +3,7 @@
 import DesktopLinks from "@/app/_components/header/components/desktop-links";
 import MobileLinks from "@/app/_components/header/components/mobile-links";
 import RightHeaderButtons from "@/app/_components/header/components/right-header-buttons";
+import EditorHeader from "@/app/editor/_component/header";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -32,7 +33,7 @@ export default function Header() {
   const path = usePathname();
 
   if (path.includes("/editor")) {
-    return null;
+    return <EditorHeader />;
   }
 
   return (

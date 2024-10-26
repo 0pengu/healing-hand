@@ -7,10 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { checkAuth } from "@/lib/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FaGoogle } from "react-icons/fa6";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const [error, user] = await checkAuth();
+
+  if (!error && user) {
+    redirect("/editor/dashboard");
+  }
+
   return (
     <div className="flex h-screen items-center justify-center">
       <Card className="w-[350px]">

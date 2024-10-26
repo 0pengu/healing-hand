@@ -8,7 +8,7 @@ export const findUserWithGoogleId = async (googleId: string) => {
   });
 };
 
-export const createUserWithGoogle = async (
+export const createUserWithGoogleId = async (
   googleId: string,
   email: string,
   name: string,
@@ -30,4 +30,11 @@ export const findUserWithId = async (id: string) => {
       id,
     },
   });
+};
+
+/**
+ * BE CAREFUL PASSING THIS TO THE CLIENT, STRIP SENSITIVE DATA FIRST
+ */
+export const findAllUsers = async () => {
+  return await db.user.findMany();
 };

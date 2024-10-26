@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthorUser } from "@/app/editor/blog/new/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
@@ -11,26 +12,19 @@ import { useRef } from "react";
 export default function BlogCard({
   imageUrl = "/placeholder.svg?height=200&width=400",
   title = "Understanding React Hooks",
-  author = {
-    name: "Jane Doe",
-    avatarUrl: "/placeholder.svg?height=40&width=40",
-  },
+  author,
   content = "React Hooks are a powerful feature that allow you to use state and other React features without writing a class. They let you 'hook into' React state and lifecycle features from function components...",
   slug = "understanding-react-hooks",
+  buttonText = "Read More",
+  editMode = false,
 }: {
   imageUrl: string;
   title: string;
-  author:
-    | {
-        name: string;
-        avatarUrl?: string;
-      }
-    | {
-        name: string;
-        avatarUrl?: string;
-      }[];
+  author: AuthorUser[] | AuthorUser;
   content?: string;
   slug: string;
+  buttonText?: string;
+  editMode?: boolean;
 }) {
   const truncatedContent =
     content && content.length > 180
@@ -61,7 +55,7 @@ export default function BlogCard({
           },
         },
       }}
-      className="mx-auto flex max-w-sm flex-col overflow-hidden rounded-xl border border-black bg-yellow-50 text-zinc-50"
+      className="z-0 mx-auto flex max-w-sm flex-col overflow-hidden rounded-xl border border-black bg-yellow-50 text-zinc-50"
     >
       <div className="relative h-52 w-full">
         <Image src={imageUrl} alt={title} fill className="object-cover" />
@@ -76,10 +70,10 @@ export default function BlogCard({
             <div className="flex -space-x-3">
               {author.map((auth, idx) => (
                 <Avatar className="h-6 w-6 border bg-white" key={idx}>
-                  {auth.avatarUrl ? (
-                    <AvatarImage src={auth.avatarUrl} alt={auth.name} />
+                  {auth.image ? (
+                    <AvatarImage src={auth.image} alt={auth.name ?? ""} />
                   ) : (
-                    <AvatarFallback>{auth.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>{auth.name?.charAt(0)}</AvatarFallback>
                   )}
                 </Avatar>
               ))}
@@ -87,10 +81,10 @@ export default function BlogCard({
           ) : (
             // Render a single author badge if there is only one author
             <Avatar className="h-6 w-6 border bg-white">
-              {author.avatarUrl ? (
-                <AvatarImage src={author.avatarUrl} alt={author.name} />
+              {author.image ? (
+                <AvatarImage src={author.image} alt={author.name ?? ""} />
               ) : (
-                <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{author.id.charAt(0)}</AvatarFallback>
               )}
             </Avatar>
           )}
@@ -114,7 +108,9 @@ export default function BlogCard({
       {/* Add mt-auto to push the footer to the bottom */}
       <CardFooter className="mt-auto p-4 pt-0">
         <Button asChild size="sm" className="w-full">
-          <Link href={`/blog/${slug}`}>Read More</Link>
+          <Link href={editMode ? `/editor/blog/${slug}` : `/blog/${slug}`}>
+            {buttonText}
+          </Link>
         </Button>
       </CardFooter>
     </motion.div>

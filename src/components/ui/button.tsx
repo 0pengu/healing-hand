@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-company-blue-300 hover:bg-company-blue-400 border border-black text-zinc-900 disabled:border-black/50",
+          "border border-black bg-company-blue-300 text-zinc-900 hover:bg-company-blue-400 disabled:border-black/50",
         black:
           "border border-black bg-zinc-50 text-zinc-900 hover:bg-zinc-900/90 hover:text-zinc-50/90 disabled:border-black/50",
         destructive:
@@ -18,12 +18,14 @@ const buttonVariants = cva(
         // outline:
         //   "border border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
         secondary:
-          "bg-company-yellow-400 hover:bg-company-yellow-500 border border-black text-zinc-900 disabled:border-black/50",
+          "border border-black bg-company-yellow-400 text-zinc-900 hover:bg-company-yellow-500 disabled:border-black/50",
+        tertiary:
+          "border border-black bg-green-400 text-zinc-900 hover:bg-green-500 disabled:border-black/50",
         // ghost:
         //   "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
-        link: "decoration-company-blue-300 text-zinc-900 underline-offset-4 hover:underline",
+        link: "text-zinc-900 decoration-company-blue-300 underline-offset-4 hover:underline",
         "link-secondary":
-          "decoration-company-yellow-500 text-zinc-900 underline-offset-4 hover:underline",
+          "text-zinc-900 decoration-company-yellow-500 underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",

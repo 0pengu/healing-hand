@@ -1,79 +1,107 @@
 import Footer from "@/app/_components/footer/footer";
 import BlogCard from "@/app/_components/header/components/blog-cards";
+import { AuthorUser } from "@/app/editor/blog/new/types";
 import { Button } from "@/components/ui/button";
 import { DownArrow } from "@/components/ui/down-arrow";
 
 const blogs: {
   imageUrl: string;
   title: string;
-  author:
-    | {
-        name: string;
-        avatarUrl?: string;
-      }
-    | {
-        name: string;
-        avatarUrl?: string;
-      }[];
+  author: AuthorUser[] | AuthorUser;
   content?: string;
   slug: string;
+  buttonText?: string;
+  editMode?: boolean;
 }[] = [
   {
     imageUrl: "https://picsum.photos/id/19/2500/1667",
     title: "Giving back to Location X",
     author: [
       {
+        id: "1",
         name: "Tan A",
-        avatarUrl: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sadie",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sadie",
+        type: "TEAM",
+        email: "fake@fake.com",
       },
       {
+        id: "2",
         name: "Tah A",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Apples",
+        type: "TEAM",
+        email: "fake@fake.com",
       },
     ],
     slug: "giving-back-to-location-x",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    buttonText: "Read More",
+    editMode: false,
   },
   {
     imageUrl: "https://picsum.photos/id/27/3264/1836",
     title: "About Us",
     author: [
       {
+        id: "3",
         name: "Ob C",
-        avatarUrl: "https://api.dicebear.com/9.x/adventurer/svg?seed=Apples",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Apples",
+        email: "fake@fake.com",
+        type: "TEAM",
       },
       {
+        id: "1",
         name: "Tan A",
-        avatarUrl: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sadie",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sadie",
+        type: "TEAM",
+        email: "fake@fake.com",
       },
       {
+        id: "2",
         name: "Tah A",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Apples",
+        type: "TEAM",
+        email: "fake@fake.com",
       },
       {
         name: "Mi N",
-        avatarUrl: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sanjeet",
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sanjeet",
+        id: "4",
+        type: "TEAM",
+        email: "fake@fake.com",
       },
     ],
     slug: "about-us",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    buttonText: "Learn More",
+    editMode: false,
   },
   {
     imageUrl: "https://picsum.photos/id/25/5000/3333",
     title: "Lorem Ipsum",
     author: {
       name: "Mi N",
-      avatarUrl: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sanjeet",
+      image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sanjeet",
+      id: "4",
+      type: "TEAM",
+      email: "fake@fake.com",
     },
     slug: "lorem-ipsum",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    buttonText: "Discover",
+    editMode: false,
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  // Simulate loading time in development mode
+  if (process.env.NODE_ENV === "development")
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return (
     <>
       <DownArrow />
-      <div className="relative flex h-[91vh] w-full items-center bg-gray-100">
+      <div className="relative flex h-screen-no-header w-full items-center bg-gray-100">
         <video
           src="/landing-video/fake.mp4"
           autoPlay
