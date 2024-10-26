@@ -104,7 +104,7 @@ export const validateRequest = cache(
  *const [error, user] = await checkAuth();
 
   if (error) {
-    redirect("/auth/login");
+    redirect("/editor/auth");
   }
 
   return (
