@@ -119,7 +119,7 @@ export const checkAuth = async (): Promise<[undefined, DBUser] | [Error]> => {
   const [error, metadata] = await tryCatch(validateRequest());
 
   if (error || !metadata || !metadata.user) {
-    return [new Error("Unauthorized")];
+    return [error as Error];
   }
 
   const dbUser = await findUserWithId(metadata.user.id);

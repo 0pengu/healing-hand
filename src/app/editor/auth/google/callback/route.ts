@@ -1,5 +1,5 @@
 import { GoogleUser } from "@/app/editor/auth/google/callback/type";
-import { checkAuth, google, lucia } from "@/lib/auth";
+import { google, lucia } from "@/lib/auth";
 import {
   createUserWithGoogleId,
   findUserWithGoogleId,
@@ -7,7 +7,7 @@ import {
 import { OAuth2RequestError } from "arctic";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 const allowedEmails = (process.env.ALLOWED_EMAILS as string).split(",") ?? [];
 
@@ -16,12 +16,6 @@ const allowedEmails = (process.env.ALLOWED_EMAILS as string).split(",") ?? [];
  * @todo - Return helpful JSON in development mode.
  */
 export async function GET(request: NextRequest) {
-  const [error, user] = await checkAuth();
-
-  if (error || user) {
-    return redirect("/editor/dashboard");
-  }
-
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -35,7 +29,7 @@ export async function GET(request: NextRequest) {
     state !== storedState ||
     !storedVerifier
   ) {
-    return new NextResponse(
+    return new Response(
       process.env.NODE_ENV === "development"
         ? "Missing some sort of state"
         : null,
@@ -54,7 +48,7 @@ export async function GET(request: NextRequest) {
       },
     );
     if (!response.ok) {
-      return new NextResponse(
+      return new Response(
         process.env.NODE_ENV === "development"
           ? "Failed to fetch user info"
           : null,
@@ -65,7 +59,7 @@ export async function GET(request: NextRequest) {
     const data: GoogleUser = await response.json();
 
     if (!allowedEmails.includes(data.email)) {
-      return new NextResponse(
+      return new Response(
         process.env.NODE_ENV === "development" ? "Email not allowed" : null,
         { status: 403 },
       );
