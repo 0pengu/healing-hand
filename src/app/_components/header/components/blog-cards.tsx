@@ -27,7 +27,7 @@ export default function BlogCard({
   slug: string;
   buttonText?: string;
   editMode?: boolean;
-  tags: string[];
+  tags?: string[];
 }) {
   const truncatedContent =
     content && content.length > 180
