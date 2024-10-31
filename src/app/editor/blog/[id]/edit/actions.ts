@@ -1,15 +1,14 @@
 "use server";
 
 import { editBlogSchema } from "@/app/editor/blog/[id]/edit/types";
-import { newBlogSchema } from "@/app/editor/blog/new/types";
-import { createOneBlog } from "@/lib/db/preset/blog";
+import { updateBlog } from "@/lib/db/preset/blog";
 import { findUserWithId } from "@/lib/db/preset/user";
 import { tryCatch } from "@/lib/error-handler";
 import { User } from "@prisma/client";
 import { z } from "zod";
 
 export async function editBlog(data: z.infer<typeof editBlogSchema>) {
-  const parsedData = newBlogSchema.safeParse(data);
+  const parsedData = editBlogSchema.safeParse(data);
 
   if (!parsedData.success) {
     throw new Error("Invalid data: " + JSON.stringify(parsedData.error));
@@ -29,7 +28,7 @@ export async function editBlog(data: z.infer<typeof editBlogSchema>) {
     authors.push(author);
   }
 
-  const [error, blog] = await tryCatch(createOneBlog(blogData));
+  const [error, blog] = await tryCatch(updateBlog(blogData));
 
   if (error) {
     throw new Error("Failed to create blog: " + error.message);

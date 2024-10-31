@@ -51,7 +51,7 @@ export const updateBlog = async (blogData: z.infer<typeof editBlogSchema>) => {
   return await db.blog.update({
     where: { id: blogData.id },
     data: {
-      Nodes: JSON.parse(blogData.nodes),
+      Nodes: blogData.nodes,
       imageUrl: blogData.picture,
       previewContent: blogData.previewContent,
       title: blogData.name,

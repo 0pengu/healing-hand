@@ -37,6 +37,7 @@ export default async function BlogEditorPage() {
           <BlogCard
             key={blog.id}
             {...blog}
+            tags={blog.tags.map((tag) => tag.name)}
             content={blog.previewContent}
             author={blog.authors}
             slug={blog.id}

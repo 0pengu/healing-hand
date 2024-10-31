@@ -1,5 +1,6 @@
 "use client";
 
+import NewTagModal from "@/app/editor/blog/new/_components/upload/tags/new-tag-modal";
 import UploadModal from "@/app/editor/blog/new/_components/upload/upload-modal";
 import { createBlog } from "@/app/editor/blog/new/actions";
 import { AuthorUser, newBlogSchema } from "@/app/editor/blog/new/types";
@@ -19,6 +20,7 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tags, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -36,6 +38,7 @@ export default function NewBlogForm({
   authorUsers: AuthorUser[];
   tags: Tags[];
 }) {
+  const [newTag, setNewTag] = useState<Tags | null>(null);
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(newBlogSchema),
@@ -44,7 +47,7 @@ export default function NewBlogForm({
       name: "",
       previewContent: "",
       content: "",
-      tagIds: [],
+      tagIds: [] as string[],
       authorIds: [user.id],
       nodes: {},
     },
@@ -64,6 +67,13 @@ export default function NewBlogForm({
     if (error) return;
     router.push(`/editor/blog/${res?.blogId}`);
   };
+
+  useEffect(() => {
+    if (newTag) {
+      router.refresh();
+      form.setValue("tagIds", [...form.getValues().tagIds, newTag.id]);
+    }
+  });
 
   return (
     <div>
@@ -140,7 +150,7 @@ export default function NewBlogForm({
                         value: tag.id,
                       }))}
                       onValueChange={field.onChange}
-                      defaultValue={[user.id]}
+                      defaultValue={[]}
                       placeholder="Select tag(s)"
                       variant="inverted"
                       animation={0.3}
@@ -148,9 +158,7 @@ export default function NewBlogForm({
                       value={field.value}
                     />
                   </FormControl>
-                  <Button variant="tertiary" type="button">
-                    +
-                  </Button>
+                  <NewTagModal tags={tags} setNewTag={setNewTag} />
                 </div>
               </FormItem>
             )}

@@ -2,6 +2,7 @@
 
 import { AuthorUser } from "@/app/editor/blog/new/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { motion, useInView } from "framer-motion";
@@ -17,6 +18,7 @@ export default function BlogCard({
   slug = "understanding-react-hooks",
   buttonText = "Read More",
   editMode = false,
+  tags,
 }: {
   imageUrl: string;
   title: string;
@@ -25,6 +27,7 @@ export default function BlogCard({
   slug: string;
   buttonText?: string;
   editMode?: boolean;
+  tags: string[];
 }) {
   const truncatedContent =
     content && content.length > 180
@@ -101,6 +104,15 @@ export default function BlogCard({
               : author.name}
           </span>
         </div>
+        {tags && tags.length > 0 && (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <Badge key={tag} className="cursor-pointer">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        )}
         <p className="mb-4 line-clamp-3 font-sans text-sm text-gray-700">
           {truncatedContent}
         </p>
